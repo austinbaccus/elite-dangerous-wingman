@@ -72,11 +72,11 @@ def handle_utterance(text: str):
     # PIP management requires multiple button presses
     if int(cmd) <= 3:   # all power to shields/engines/weapons
         action = lambda: repeat_key_n_times(commands[idx_commands[cmd]], 4)
-    elif int(cmd) is 4: # no shields
+    elif int(cmd) == 4: # no shields
         action = lambda: pip_no_shields()
-    elif int(cmd) is 5: # no engines
+    elif int(cmd) == 5: # no engines
         action = lambda: pip_no_engines()
-    elif int(cmd) is 6: # no weapons
+    elif int(cmd) == 6: # no weapons
         action = lambda: pip_no_weapons()
     else:               # normal command
         action = lambda: kb_mod.key_press(commands[idx_commands[cmd]])
