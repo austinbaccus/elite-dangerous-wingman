@@ -40,3 +40,5 @@ You need to have Ollama running on your machine. You can swap out the default mo
 - engage (charge frame shift drive)
 - activate shield cell
 - deploy heat sink
+
+## FAQ
