@@ -41,7 +41,7 @@ with open("game_commands.json", "r", encoding="utf-8") as f:
 router = OllamaClient()
 
 def repeat_key_n_times(key, n):
-    for i in n:
+    for i in range(n):
         kb_mod.key_press(key)
 
 def pip_no_shields():
