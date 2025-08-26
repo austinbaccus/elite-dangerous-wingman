@@ -1,16 +1,20 @@
-# Elite Dangerous Wingman
+![Wingman](https://github.com/user-attachments/assets/84db643c-85f6-49ab-86ec-d66d3a8a0136)
+<div align="center"><h1>Elite Dangerous: Wingman</h1></div>
 
-## What is this?
-Voice-activated ship assistant for Elite Dangerous. 
+Wingman is a voice-activated ship assistant for Elite Dangerous. Speak a command, and an SLM interprets your command and maps it to a ship action. It will then execute that command in-game. 
 
-You speak a command. Speech-to-text turns that into text. The text is sent to a small AI interpreter that maps what you said to one of 26 in-game commands. A virtual key corresponding to that command is pressed, which executes the command inside Elite Dangerous.
+"Hit the lights", "Give me some light", "Let there be light" → `activate lights` → the AI turns your ship's lights on in-game
 
-You need to have Ollama running on your machine. 
+
+## Pre-requisites
+- Ollama needs to be running
+- Python needs to be installed
+- You need to have 5+ GB of VRAM to spare while running Elite Dangerous
 
 ## Installation
-1. Create or start an Ollama server on your machine
+1. `git clone https://github.com/austinbaccus/elite-dangerous-wingman.git`
 2. `ollama create qwen-cmd -f m`
-3. `pip install {anything that's missing}`
+3. `pip install -r requirements.txt`
 4. `python main.py`
 
 ## Commands
