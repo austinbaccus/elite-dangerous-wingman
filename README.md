@@ -7,7 +7,7 @@ Wingman is a voice-activated ship assistant for Elite Dangerous. Speak a command
 
 
 ## Pre-requisites
-- Ollama needs to be running
+- Ollama needs to be running on port 11434
 - Python needs to be installed
 - You need to have 5+ GB of VRAM to spare while running Elite Dangerous
 
