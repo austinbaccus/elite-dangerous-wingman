@@ -1,4 +1,4 @@
-# elite-dangerous-wingman
+# Elite Dangerous Wingman
 
 ## What is this?
 Voice-activated ship assistant for Elite Dangerous. 
