@@ -1,15 +1,18 @@
 # pip install faster-whisper webrtcvad sounddevice numpy
-import collections, queue, time
+import collections, json, queue, time
 import numpy as np
 import sounddevice as sd
 import webrtcvad
 from faster_whisper import WhisperModel
 
+with open("config.json", "r", encoding="utf-8") as f:
+    config = json.load(f)
+
 SAMPLE_RATE = 16000
 FRAME_MS = 30            # WebRTC VAD needs 10/20/30ms frames
 SILENCE_TAIL_MS = 500    # how much trailing silence ends an utterance
 DEVICE = "cpu"           # "cuda" or "cpu"
-DEVICE_INDEX = 0         # which gpu you want to use (idk what happens for cpu)
+DEVICE_INDEX = config["gpu_device_index"]  # which gpu you want to use (idk what happens for cpu)
 MODEL_NAME = "base.en"
 COMPUTE_TYPE = "int8"    # "int8" (smallest), or "int8_float16" (faster on GPU)
 
@@ -18,7 +21,7 @@ def _frame_bytes(int16_pcm):
 
 class FasterWhisperVADListener:
     def __init__(self, input_device=None):
-        self.model = WhisperModel(MODEL_NAME, device=DEVICE, compute_type=COMPUTE_TYPE) #device_index=DEVICE_INDEX, 
+        self.model = WhisperModel(MODEL_NAME, device=DEVICE, device_index=DEVICE_INDEX, compute_type=COMPUTE_TYPE)
         self.vad = webrtcvad.Vad(2)  # 0=aggresive->3=most aggressive; 2 is a good middle
         self.blocksize = int(SAMPLE_RATE * FRAME_MS / 1000)  # samples per 30ms frame
         self.q = queue.Queue()
