@@ -1,7 +1,7 @@
 import json
 import stt as stt_mod
 import kb as kb_mod
-from ai import OllamaClient
+from ai import LlamaCppClient
 
 print("Starting Wingman")
 
@@ -38,7 +38,7 @@ idx_commands = {
 with open("game_commands.json", "r", encoding="utf-8") as f:
     commands = json.load(f)
 
-router = OllamaClient()
+router = LlamaCppClient()
 
 def repeat_key_n_times(key, n):
     for i in range(n):
