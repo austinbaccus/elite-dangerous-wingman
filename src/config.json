@@ -1,0 +1,4 @@
+{
+  "gpu_device_index": 0,
+  "llama_cpp_endpoint": "http://192.168.0.129:8081"
+}
