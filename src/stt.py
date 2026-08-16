@@ -9,7 +9,7 @@ SAMPLE_RATE = 16000
 FRAME_MS = 30            # WebRTC VAD needs 10/20/30ms frames
 SILENCE_TAIL_MS = 500    # how much trailing silence ends an utterance
 DEVICE = "cpu"           # "cuda" or "cpu"
-DEVICE_INDEX = 1         # which gpu you want to use (idk what happens for cpu)
+DEVICE_INDEX = 0         # which gpu you want to use (idk what happens for cpu)
 MODEL_NAME = "base.en"
 COMPUTE_TYPE = "int8"    # "int8" (smallest), or "int8_float16" (faster on GPU)
 
@@ -70,10 +70,7 @@ class FasterWhisperVADListener:
                     audio_f32 = (segment.astype(np.float32) / 32768.0)
 
                     # Run ASR (no VAD here; we already segmented)
-                    segments, _ = self.model.transcribe(audio_f32,
-                                                        vad_filter=True,
-                                                        no_speech_threshold=0.7,
-                                                        condition_on_previous_text=False)
+                    segments, _ = self.model.transcribe(audio_f32, vad_filter=True, no_speech_threshold=0.7, condition_on_previous_text=False)
                     text = " ".join(s.text for s in segments).strip()
                     if text:
                         yield text
