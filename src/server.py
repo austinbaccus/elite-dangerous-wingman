@@ -2,14 +2,14 @@ import json
 import os
 import uvicorn
 import kb
-from mcp.server import MCPServer # type: ignore
+from mcp.server.fastmcp import FastMCP
 from mcp.server.transport_security import TransportSecuritySettings
 from starlette.middleware.cors import CORSMiddleware
 
 with open(os.path.join(os.path.dirname(__file__), "game_commands.json"), "r", encoding="utf-8") as f:
     COMMANDS = json.load(f)
 
-server = MCPServer("wingman")
+server = FastMCP("wingman")
 
 def press(name, times=1):
     for _ in range(times):

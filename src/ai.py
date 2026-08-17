@@ -2,7 +2,8 @@ import asyncio
 import json
 import time
 import requests
-from mcp import Client # type: ignore
+from mcp.shared.memory import create_connected_server_and_client_session
+import server as mcp_server
 
 with open("config.json", "r", encoding="utf-8") as f:
     config = json.load(f)
@@ -14,31 +15,30 @@ If no tool matches the command, reply with a single short sentence and call noth
 
 class LlamaCppClient:
     endpoint = config["llama_cpp_endpoint"]
-    mcp_endpoint = config["mcp_endpoint"]
 
     def __init__(self):
         self.tools = asyncio.run(self._load_tools())
         print(f"Loaded {len(self.tools)} ship commands from MCP server")
 
     async def _load_tools(self):
-        async with Client(self.mcp_endpoint) as client:
-            result = await client.list_tools()
+        async with create_connected_server_and_client_session(mcp_server.server) as session:
+            result = await session.list_tools()
             return [
                 {
                     "type": "function",
                     "function": {
                         "name": tool.name,
                         "description": tool.description,
-                        "parameters": tool.input_schema,
+                        "parameters": tool.inputSchema,
                     },
                 }
                 for tool in result.tools
             ]
 
     async def _run_tool(self, name, arguments):
-        async with Client(self.mcp_endpoint) as client:
-            result = await client.call_tool(name, arguments)
-            return " ".join(block.text for block in result.content if getattr(block, "text", None))
+        async with create_connected_server_and_client_session(mcp_server.server) as session:
+            result = await session.call_tool(name, arguments)
+            return " ".join(block.text for block in result.content if getattr(block, "text", None)) # type: ignore
 
     def decipher_user_request(self, request):
         start = time.perf_counter()
