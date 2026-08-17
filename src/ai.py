@@ -2,7 +2,7 @@ import asyncio
 import json
 import time
 import requests
-from mcp.shared.memory import create_connected_server_and_client_session
+from mcp import Client # type: ignore
 import server as mcp_server
 
 with open("config.json", "r", encoding="utf-8") as f:
@@ -21,23 +21,23 @@ class LlamaCppClient:
         print(f"Loaded {len(self.tools)} ship commands from MCP server")
 
     async def _load_tools(self):
-        async with create_connected_server_and_client_session(mcp_server.server) as session:
-            result = await session.list_tools()
+        async with Client(mcp_server.server) as client:
+            result = await client.list_tools()
             return [
                 {
                     "type": "function",
                     "function": {
                         "name": tool.name,
                         "description": tool.description,
-                        "parameters": tool.inputSchema,
+                        "parameters": tool.input_schema,
                     },
                 }
                 for tool in result.tools
             ]
 
     async def _run_tool(self, name, arguments):
-        async with create_connected_server_and_client_session(mcp_server.server) as session:
-            result = await session.call_tool(name, arguments)
+        async with Client(mcp_server.server) as client:
+            result = await client.call_tool(name, arguments)
             return " ".join(block.text for block in result.content if getattr(block, "text", None)) # type: ignore
 
     def decipher_user_request(self, request):
