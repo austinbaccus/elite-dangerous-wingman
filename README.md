@@ -6,16 +6,27 @@ Wingman is a voice-activated ship assistant for Elite Dangerous. Speak a command
 "Hit the lights", "Give me some light", "Let there be light" → `activate lights` → the AI turns your ship's lights on in-game
 
 
-## Pre-requisites
-- Ollama needs to be running on port 11434
-- Python needs to be installed
-- You need to have 5+ GB of VRAM to spare while running Elite Dangerous
+## AI Usage
+- I used AI to make this. I'd guess around 90% of the code was made with Claude. I would design the architecture and stub out empty function headers and then tell the AI "go fill out that function". 
+- AI didn't make any design choices. I treated the AI like it's an intern that's really good at solving interview-style coding questions but awful at thinking in a context greater than one function.
+- No AI one-shotting involved ("Claude, make me an app that listens to voice commands for Elite Dangerous and, uhhh, btw make no mistakes").
 
-## Installation
-1. `git clone https://github.com/austinbaccus/elite-dangerous-wingman.git`
-2. `ollama create qwen-cmd -f m`
-3. `pip install -r requirements.txt`
-4. `python main.py`
+Note: Don't share this on the Elite Dangerous subreddit. As of right now, their subreddit rules say that if AI was used to make a project in any capacity, you can't promote it on their subreddit. I like that rule, so I don't plan on breaking it.
+
+
+## Pre-requisites
+- You need to have a local AI server running
+- Python needs to be installed
+
+## How To Run
+```
+git clone https://github.com/austinbaccus/elite-dangerous-wingman.git
+cd elite-dangerous-wingman
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python main.py
+```
 
 ## Commands
 - all power to shields
@@ -46,14 +57,11 @@ Wingman is a voice-activated ship assistant for Elite Dangerous. Speak a command
 - deploy heat sink
 
 ## FAQ
-### Why does the first command take so long to be interpreted?
-- Because Ollama needs to load the model, which takes a minute or two.
-- You can pre-load the model in Ollama to reduce the time it takes to load. Or, while the game is booting up, say a fake command to get it started.
 
 ### How long does the AI take to interpret what I say?
-- 3.7 seconds on an Nvidia 3060.
+- 0.5 seconds on an Nvidia 2080 running `LFM2.5-8B-A1B-UD-IQ4_XS`.
 - Loading a smaller model or using a faster GPU will lower the time it takes to interpret what you say.
 
-### How much VRAM does this use?
-- ~5 GB.
-- If you need to lower the VRAM usage, swap out the default model (`qwen2.5:7b-instruct-q5_K_M`) with something like Qwen2.5-0.5B. It will not be as accurate when it interprets your commands though.
+### How do I run the AI
+- Bring Your Own AI. 
+- I run a `llama.cpp` server locally and I point the app at that. I run it on a separate machine so that I can use my gaming computer to play the game and not have to worry about running the AI.
