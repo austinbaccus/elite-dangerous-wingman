@@ -15,6 +15,7 @@ print("Starting Wingman")
 router = LlamaCppClient()
 
 def handle_utterance(text: str):
+    print(f"STT heard: {text!r}")
     response = router.decipher_user_request(text)
     print(f"Model returned: {response!r}")
 
@@ -38,16 +39,16 @@ def main():
                 if not transcript:
                     continue
 
-                print(f"TTS heard: {transcript!r}")
+                # print(f"STT heard: {transcript!r}")
 
                 text = transcript.lower()
                 if WAKE_WORD not in text:
-                    print("Ignored, no wake word")
+                    # print("Ignored, no wake word")
                     continue
 
                 command = text.split(WAKE_WORD, 1)[1].strip(" ,.!?")
                 if not command:
-                    print("Wake word heard with no command")
+                    # print("Wake word heard with no command")
                     continue
 
                 handle_utterance(command)

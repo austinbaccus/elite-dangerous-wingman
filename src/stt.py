@@ -1,9 +1,13 @@
 # pip install faster-whisper webrtcvad sounddevice numpy
-import collections, json, queue, time
+import collections, json, logging, queue, time
 import numpy as np
 import sounddevice as sd
 import webrtcvad
 from faster_whisper import WhisperModel
+
+# faster-whisper logs "Processing audio with duration ..." / "VAD filter removed ..."
+# at INFO on every transcribe call
+logging.getLogger("faster_whisper").setLevel(logging.WARNING)
 
 with open("config.json", "r", encoding="utf-8") as f:
     config = json.load(f)
